@@ -79,5 +79,9 @@ namespace Chassis.Core
 
         [Tooltip("Duration of bar shake on Near Miss warning.")]
         public float nearMissBarShakeDuration = 0.5f;
+
+        [Header("Ad Frequency Settings")]
+        [Tooltip("Minimum time in seconds between interstitial ad displays.")]
+        public float interstitialFrequencyCap = 30f;
     }
 }

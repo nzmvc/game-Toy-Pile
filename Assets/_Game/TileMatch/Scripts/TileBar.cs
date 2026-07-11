@@ -27,6 +27,12 @@ namespace Game.TileMatch
             _activeTiles.Clear();
         }
 
+        public void ExpandMaxSlots(int newMaxSlots)
+        {
+            _maxSlots = newMaxSlots;
+            Debug.Log($"[TileBar] Expanded max slots to: {_maxSlots}");
+        }
+
         /// <summary>
         /// Attempts to add a tile to the bar, sorting it adjacent to other tiles of the same type.
         /// </summary>

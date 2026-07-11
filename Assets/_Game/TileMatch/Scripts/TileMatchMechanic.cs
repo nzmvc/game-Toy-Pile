@@ -193,6 +193,10 @@ namespace Game.TileMatch
         {
             _isPlaying = false;
 
+            // Reset win streak on fail
+            PlayerPrefs.SetInt("WinStreak", 0);
+            PlayerPrefs.Save();
+
             var result = new LevelResult
             {
                 levelId = _levelData.levelId,
@@ -212,6 +216,11 @@ namespace Game.TileMatch
             if (_spawnedObjects.Count == 0 && (tileBar == null || tileBar.IsEmpty()))
             {
                 _isPlaying = false;
+
+                // Increment win streak on success
+                int streak = PlayerPrefs.GetInt("WinStreak", 0);
+                PlayerPrefs.SetInt("WinStreak", streak + 1);
+                PlayerPrefs.Save();
 
                 var result = new LevelResult
                 {
@@ -372,6 +381,47 @@ namespace Game.TileMatch
                     Destroy(tile.gameObject);
                 }
             }
+        }
+
+        /// <summary>
+        /// Shuffles the positions of all uncollected tiles currently in the physics pile.
+        /// Applies a random impulse to let them drop and settle naturally.
+        /// </summary>
+        public void ShufflePile()
+        {
+            var gameConfig = ServiceLocator.Get<GameConfig>();
+            if (gameConfig == null) return;
+
+            Vector2 rx = gameConfig.spawnRangeX;
+            Vector2 ry = gameConfig.spawnRangeY;
+            Vector2 rz = gameConfig.spawnRangeZ;
+
+            // Re-seed randomly for the shuffle positioning
+            Random.InitState((int)(Time.time * 1000f));
+
+            foreach (var tile in _spawnedObjects)
+            {
+                if (tile == null || tile.IsCollected) continue;
+
+                float px = Random.Range(rx.x, rx.y);
+                float py = Random.Range(ry.x, ry.y);
+                float pz = Random.Range(rz.x, rz.y);
+
+                tile.transform.position = new Vector3(px, py, pz);
+                tile.transform.rotation = Random.rotation;
+
+                Rigidbody rb = tile.GetComponent<Rigidbody>();
+                if (rb != null)
+                {
+                    rb.isKinematic = false;
+                    rb.velocity = Vector3.zero;
+                    rb.angularVelocity = Vector3.zero;
+                    // Apply a tiny random dispersion force
+                    rb.AddForce(Random.insideUnitSphere * 2.0f, ForceMode.Impulse);
+                }
+            }
+
+            Debug.Log($"[TileMatchMechanic] Shuffled {_spawnedObjects.Count} uncollected tiles.");
         }
 
         private void SimulateWin()

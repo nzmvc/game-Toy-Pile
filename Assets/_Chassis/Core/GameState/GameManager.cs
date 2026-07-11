@@ -29,6 +29,7 @@ namespace Chassis.Core
 
         public GameState CurrentState { get; private set; } = GameState.Boot;
         public IGameMechanic ActiveMechanic { get; private set; }
+        public int CurrentLevelId => _currentLevelId;
 
         private float _levelStartTime;
         private int _attemptNo = 1;

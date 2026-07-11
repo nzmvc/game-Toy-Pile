@@ -18,9 +18,14 @@ namespace Game.TileMatch
             {
                 mechanic = FindFirstObjectByType<TileMatchMechanic>();
             }
+        }
 
-            // Standard delay simulation (1 second) to allow transition into Main Menu and print output
-            Invoke(nameof(BootstrapGame), 1.0f);
+        /// <summary>
+        /// Starts the bootstrapped level loop when triggered by the UI play button.
+        /// </summary>
+        public void StartGameplay()
+        {
+            BootstrapGame();
         }
 
         private void BootstrapGame()
