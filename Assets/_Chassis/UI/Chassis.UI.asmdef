@@ -3,15 +3,16 @@
     "rootNamespace": "Chassis.UI",
     "references": [
         "Chassis.Core",
-        "Chassis.Juice",
-        "Unity.ugui",
-        "Unity.TextMeshPro"
+        "Chassis.Juice"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
-    "overrideReferences": false,
-    "precompiledReferences": [],
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "UnityEngine.UI.dll",
+        "Unity.TextMeshPro.dll"
+    ],
     "autoReferenced": true,
     "defineConstraints": [],
     "versionDefines": [],
