@@ -57,5 +57,27 @@ namespace Chassis.Core
 
         [Tooltip("Flat amount of type count reduction on breath levels (e.g. 1).")]
         public int breathLevelTypeReduction = 1;
+
+        [Header("Juice Config")]
+        [Tooltip("Time window in seconds to link consecutive matches into a combo (e.g. 2.0s).")]
+        public float comboWindow = 2.0f;
+
+        [Tooltip("Pitch increment per active combo multiplier (e.g. 0.08f).")]
+        public float comboPitchStep = 0.08f;
+
+        [Tooltip("Maximum pitch for the combo audio playback (e.g. 1.5f).")]
+        public float comboMaxPitch = 1.5f;
+
+        [Tooltip("Strength of camera shake on match popping shockwave.")]
+        public float shockwaveCameraShakeStrength = 0.15f;
+
+        [Tooltip("Duration of camera shake on match popping shockwave.")]
+        public float shockwaveCameraShakeDuration = 0.2f;
+
+        [Tooltip("Strength of bar shake on Near Miss warning.")]
+        public float nearMissBarShakeStrength = 0.15f;
+
+        [Tooltip("Duration of bar shake on Near Miss warning.")]
+        public float nearMissBarShakeDuration = 0.5f;
     }
 }

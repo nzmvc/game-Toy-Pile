@@ -76,12 +76,47 @@ namespace Game.TileMatch
                 _collider.enabled = false;
             }
 
+            // Setup TrailRenderer dynamically for flight path feedback
+            SetupTrail();
+
             if (_flyCoroutine != null)
             {
                 StopCoroutine(_flyCoroutine);
             }
 
             _flyCoroutine = StartCoroutine(FlyToSlotCoroutine(targetSlot, duration, onComplete));
+        }
+
+        private void SetupTrail()
+        {
+            var trail = gameObject.GetComponent<TrailRenderer>();
+            if (trail == null)
+            {
+                trail = gameObject.AddComponent<TrailRenderer>();
+            }
+
+            trail.time = 0.25f;
+            trail.startWidth = 0.2f;
+            trail.endWidth = 0f;
+            trail.autodestruct = false;
+
+            var shader = Shader.Find("Sprites/Default");
+            if (shader != null)
+            {
+                trail.material = new Material(shader);
+            }
+
+            Color color = Color.white;
+            if (_renderer != null)
+            {
+                var block = new MaterialPropertyBlock();
+                _renderer.GetPropertyBlock(block);
+                color = block.GetColor("_Color");
+            }
+
+            trail.startColor = color;
+            trail.endColor = new Color(color.r, color.g, color.b, 0f);
+            trail.enabled = true;
         }
 
         /// <summary>
@@ -127,6 +162,13 @@ namespace Game.TileMatch
             {
                 transform.position = targetSlot.position;
                 transform.rotation = targetSlot.rotation;
+            }
+
+            // Disable trail renderer upon arrival
+            var trail = GetComponent<TrailRenderer>();
+            if (trail != null)
+            {
+                trail.enabled = false;
             }
 
             _flyCoroutine = null;

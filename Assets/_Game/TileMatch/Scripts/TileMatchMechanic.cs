@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Chassis.Core;
+using Chassis.Juice;
 
 namespace Game.TileMatch
 {
@@ -122,6 +123,12 @@ namespace Game.TileMatch
                         {
                             _spawnedObjects.Remove(tile);
                             _movesMade++;
+
+                            // Squash & stretch scale punch on selection
+                            TweenHelper.PunchScale(JuicePlayer.Instance, tile.transform, new Vector3(-0.2f, 0.2f, -0.2f), 0.15f);
+
+                            // Trigger click sfx/haptics via JuicePlayer
+                            JuicePlayer.Instance.PlayClick(tile.transform.position);
                             
                             // Immediately check if pile is empty and bar is empty
                             CheckWinCondition();
@@ -143,6 +150,9 @@ namespace Game.TileMatch
 
             // Apply shockwave physics effect
             TriggerShockwave(popPos);
+
+            // Trigger match pop particle, audio combo pitch, and haptic rumble
+            JuicePlayer.Instance.PlayMatch(popPos);
 
             // Destroy matched tile game objects
             if (t1 != null) Destroy(t1.gameObject);
@@ -213,6 +223,11 @@ namespace Game.TileMatch
                 };
 
                 Debug.Log("[TileMatchMechanic] Level completed successfully!");
+
+                // Trigger win victory juice preset
+                Vector3 camCenter = Camera.main != null ? Camera.main.transform.position + Camera.main.transform.forward * 5f : Vector3.zero;
+                JuicePlayer.Instance.PlayWin(camCenter);
+
                 EventBus.Publish(new LevelCompletedEvent { result = result });
             }
         }
@@ -221,6 +236,9 @@ namespace Game.TileMatch
         {
             var gameConfig = ServiceLocator.Get<GameConfig>();
             if (gameConfig == null) return;
+
+            // Trigger camera shake proportional to pop impulse
+            JuicePlayer.Instance.ShakeCamera(gameConfig.shockwaveCameraShakeStrength, gameConfig.shockwaveCameraShakeDuration);
 
             Collider[] colliders = Physics.OverlapSphere(position, gameConfig.shockwaveRadius);
             foreach (var hit in colliders)

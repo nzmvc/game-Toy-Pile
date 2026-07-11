@@ -23,7 +23,7 @@ Game.TileMatch modülünü IGameMechanic olarak yaz:
 5. Win: kutu + bar boş. Fail: bar 7/7 ve eşleşme yok. EndLevel(LevelResult).
 6. Bar 6/7'deyken NearMiss event'i yayınla. Tüm akış EventSchema'yı tetikler.
 
-PROMPT 3 — Level Generator + Zorluk
+ok PROMPT 3 — Level Generator + Zorluk
 1. DifficultyService: level numarasından parametre üret (toplam obje N, tür
    sayısı T, istif yoğunluğu, tuzak çifti oranı); eğri GameConfig'ten;
    her 4-5 levelde bir "nefes" seviyesi kuralı.
@@ -33,7 +33,7 @@ PROMPT 3 — Level Generator + Zorluk
    reddedilir ve yeni seed denenir. Editor'de "Generate & Validate" butonu.
 4. docs/LEVELGEN.md: algoritma + parametre tablosu.
 
-PROMPT 4 — Juice
+ok PROMPT 4 — Juice
 Chassis.Juice:
 1. JuicePreset (partikül + SFX + haptik şiddeti) + JuicePlayer.Play(preset, pos),
    object pool'lu (Instantiate/Destroy yasak).

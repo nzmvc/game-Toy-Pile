@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Chassis.Core;
+using Chassis.Juice;
 
 namespace Game.TileMatch
 {
@@ -94,6 +96,16 @@ namespace Game.TileMatch
             // Evaluate state conditions
             if (_activeTiles.Count == 6)
             {
+                var gameConfig = ServiceLocator.Get<GameConfig>();
+                float strength = gameConfig != null ? gameConfig.nearMissBarShakeStrength : 0.15f;
+                float duration = gameConfig != null ? gameConfig.nearMissBarShakeDuration : 0.5f;
+
+                // Shake the bar transform physically for visual tension warning
+                TweenHelper.ShakePosition(JuicePlayer.Instance, transform, strength, duration);
+
+                // Play near miss warning audio/vfx
+                JuicePlayer.Instance.PlayNearMiss(transform.position);
+
                 onNearMissCallback?.Invoke();
             }
             else if (_activeTiles.Count >= _maxSlots)
