@@ -3,7 +3,9 @@
     "rootNamespace": "Chassis.UI",
     "references": [
         "Chassis.Core",
-        "Chassis.Juice"
+        "Chassis.Juice",
+        "Unity.ugui",
+        "Unity.TextMeshPro"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
