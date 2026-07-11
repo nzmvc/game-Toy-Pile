@@ -1,0 +1,17 @@
+{
+    "name": "Chassis.UI",
+    "rootNamespace": "Chassis.UI",
+    "references": [
+        "Chassis.Core",
+        "Chassis.Juice"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

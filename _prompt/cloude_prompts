@@ -1,0 +1,62 @@
+Promptlar (sıralı; her adım derlenip commit edilmeden sonrakine geçme):
+
+ok PROMPT 1 — İskelet
+AGENTS.md kurallarına göre şasi-lite iskeletini kur:
+1. Klasörler + assembly definition'lar (Chassis.Core, Chassis.Juice, Chassis.UI,
+   Game.TileMatch).
+2. Chassis.Core: tip güvenli EventBus, GameManager durum makinesi
+   (Boot → MainMenu → Playing → LevelEnd), Boot + Main sahne akışı.
+3. IGameMechanic + LevelData/LevelResult (ScriptableObject, JSON uyumlu).
+4. IAnalyticsProvider (ConsoleAnalyticsProvider) ve IAdsProvider (DummyAdsProvider:
+   log atar, rewarded'ı %100 başarıyla simüle eder).
+5. docs/EventSchema.md: level_start, level_complete, level_fail, ad_offer,
+   ad_shown, ad_reward (alanlarıyla) — kodda tip güvenli sabitlere dönüştür.
+Önce mimari planı sun, onayımdan sonra yaz. docs/ARCHITECTURE.md üret.
+
+ok PROMPT 2 — TileMatch Mekaniği
+Game.TileMatch modülünü IGameMechanic olarak yaz:
+1. Fizik yığını: LevelData'daki obje setini (tür id + adet) kutuya seed'li
+   rastgele düşür (Rigidbody). Placeholder: renkli primitif mesh'ler.
+2. Tap kontrolü: raycast ile seçim; obje 7 slotluk toplama barına tween ile uçar.
+3. Barda aynı türden 3 → pop + OnMatchPopped event + skor.
+4. Pop anında şok dalgası: patlama noktasından fizik impulse, yığın sarsılır.
+5. Win: kutu + bar boş. Fail: bar 7/7 ve eşleşme yok. EndLevel(LevelResult).
+6. Bar 6/7'deyken NearMiss event'i yayınla. Tüm akış EventSchema'yı tetikler.
+
+PROMPT 3 — Level Generator + Zorluk
+1. DifficultyService: level numarasından parametre üret (toplam obje N, tür
+   sayısı T, istif yoğunluğu, tuzak çifti oranı); eğri GameConfig'ten;
+   her 4-5 levelde bir "nefes" seviyesi kuralı.
+2. LevelGenerator (editor aracı): seed'li, her türden 3'ün katı obje,
+   çıktı LevelData asset'i. İlk 30 level'ı üret.
+3. Çözülebilirlik botu: greedy solver simülasyonu; bot çözemezse level
+   reddedilir ve yeni seed denenir. Editor'de "Generate & Validate" butonu.
+4. docs/LEVELGEN.md: algoritma + parametre tablosu.
+
+PROMPT 4 — Juice
+Chassis.Juice:
+1. JuicePreset (partikül + SFX + haptik şiddeti) + JuicePlayer.Play(preset, pos),
+   object pool'lu (Instantiate/Destroy yasak).
+2. SFX manager: pitch varyasyonu ±%5; kombo zincirinde pitch kademeli artar.
+3. Haptik wrapper (ayarlardan kapanır) + tween helper'lar (scale-punch, shake).
+4. Bağla: tap→squash+tık+hafif haptik · uçuş→trail · pop→partikül+ses+haptik ·
+   şok dalgası→mikro kamera shake · win→konfeti · near-miss→bar titremesi+gerilim.
+İNSAN GÖREVİ: import edeceğim ücretsiz SFX/partikül asset önerilerini listele.
+
+PROMPT 5 — UI + Akışlar
+Chassis.UI screen-stack: MainMenu (Play, streak sayacı, settings) · HUD (level
+no, bar, 2 booster: Shuffle ve +1 Slot — ikisi de dummy rewarded akışına bağlı) ·
+Win (coin count-up, "2x ödül" rewarded, Next) · Fail (rewarded "+1 slot ile
+devam" / Retry) · Settings (ses/haptik toggle, gizlilik linki placeholder).
+Win → dummy interstitial (log) → sonraki level; frequency cap GameConfig'ten.
+Safe-area uyumlu, portre. Tüm buton event'leri EventSchema'ya bağlı.
+
+
+PROMPT 6 — Build + QA
+1. Android build ayarları: IL2CPP, ARM64, portre kilidi, sürüm şeması.
+2. docs/QA.md: temiz kurulum + 10 dk oynanış kontrol listesi (fps, input
+   gecikmesi, near-miss hissi, kombo juice, fail/rewarded akışı).
+3. İNSAN GÖREVİ olarak cihaz testini işaretle — juice parametre ayarı birlikte.
+Bilinçli sapma notu: 02 dosyasındaki tam şasi (gerçek Firebase, mediation, IAP, consent) burada yok — CPI testi için gerekmez, gameplay videosu yeter. Interface'ler durduğu için oyun testi geçerse Prompt 0.2–0.4'ü aynen bu projeye uygularız. "Önce üret, sonra yatırım yap."
+Takvim gerçeği: efor ~2 hafta, senin 10–20 saat/haftanla takvimde 3–4 hafta. Bunu baştan kabul et, panik yok.
+Sonraki somut adım (Makine 5 + Makine 1 insan işi paralel): (1) Unity projesini kur, AGENTS.md'yi koy, Prompt 1'i Antigravity'ye yapıştır. (2) Bu akşam telefonuna Zen Match, Triple Match 3D ve Match Factory! indir, 10'ar dakika oyna ve TikTok Creative Center'da reklamlarını izle — twist'inin reklamda nasıl duracağını rakipsiz öğrenemezsin.

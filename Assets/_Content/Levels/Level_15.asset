@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: add9e6dfa983b4191bfc8394ee1c3f79, type: 3}
+  m_Name: Level_15
+  m_EditorClassIdentifier: Chassis.Core::Chassis.Core.LevelData
+  levelId: 15
+  mechanicId: tile_match
+  difficulty: 3
+  jsonData: "{\n    \"items\": [\n        {\n            \"typeId\": 1,\n           
+    \"count\": 3\n        },\n        {\n            \"typeId\": 2,\n           
+    \"count\": 6\n        },\n        {\n            \"typeId\": 3,\n           
+    \"count\": 3\n        }\n    ]\n}"

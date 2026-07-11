@@ -1,0 +1,19 @@
+{
+    "name": "Game.TileMatch.Editor",
+    "rootNamespace": "Game.TileMatch.Editor",
+    "references": [
+        "Chassis.Core",
+        "Game.TileMatch"
+    ],
+    "includePlatforms": [
+        "Editor"
+      ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

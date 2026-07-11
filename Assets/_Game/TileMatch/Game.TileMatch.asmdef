@@ -1,0 +1,18 @@
+{
+    "name": "Game.TileMatch",
+    "rootNamespace": "Game.TileMatch",
+    "references": [
+        "Chassis.Core",
+        "Chassis.Juice",
+        "Chassis.UI"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
